@@ -1,68 +1,86 @@
 package io.loop.utilities;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.cucumber.java.Scenario;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.Set;
-
 import static org.junit.Assert.assertTrue;
-
 
 public class BrowserUtils {
 
-    /**
-     * validate if driver switched to expected url or title
-     * @param driver
-     * @param expectedUrl
-     * @param expectedTitle
-     * @author NSH
-     * implements assertion
-     */
-    public static void switchWindowAndValidate(WebDriver driver, String expectedUrl, String expectedTitle){
-        // to lowercase the params in order to avoid miss type
-        expectedTitle = expectedTitle.toLowerCase();
-        expectedUrl = expectedUrl.toLowerCase();
+    public static Scenario myScenario;
 
-        // get all window handles, switch one by one and each time check if the url matches expected to stop
-        Set <String> windowHandles = driver.getWindowHandles();
+    /**
+     * takes screenshot
+     * @author AA
+     */
+    public static void takeScreenShot() {
+        try{
+            myScenario.log("Current url is: " + Driver.getDriver().getCurrentUrl());
+            final byte[] screenshot = ((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            myScenario.attach(screenshot, "image/png", myScenario.getName());
+
+        }catch (WebDriverException e){
+            e.getMessage();
+
+        }catch (ClassCastException e){
+            e.getMessage();
+        }
+
+    }
+
+
+    /**
+     * validate if driver switched to expected URL or title
+     *
+     * @param driver
+     * @param expectedURL
+     * @param expectedTitle implements assertion
+     */
+    public static void switchWindowAndValidate(WebDriver driver, String expectedURL, String expectedTitle) {
+        expectedTitle = expectedTitle.toLowerCase();
+        expectedURL = expectedURL.toLowerCase();
+
+        // get all windowHandles, switch one by one each time check if the URL matches expected to stop
+        Set<String> windowHandles = driver.getWindowHandles();
         for (String each : windowHandles) {
             driver.switchTo().window(each);
-            if (driver.getCurrentUrl().toLowerCase().contains(expectedUrl)){
+            if (driver.getCurrentUrl().toLowerCase().contains(expectedURL)) {
                 break;
             }
         }
-        // after stopping on expected url, validate the title
+        // after
         assertTrue(driver.getTitle().toLowerCase().contains(expectedTitle));
+
 
     }
 
     /**
      * @param driver
      * @param targetTitle
-     * @author NSH
+     * @author artemavramov
      */
-    public static void switchToWindow(WebDriver driver, String targetTitle){
+    public static void switchTohWindow(WebDriver driver, String targetTitle) {
         String origin = driver.getWindowHandle();
-        for(String handle : driver.getWindowHandles()){
+        for (String handle : driver.getWindowHandles()) {
             driver.switchTo().window(handle);
-            if(driver.getTitle().contains(targetTitle)){
+            if (driver.getTitle().toLowerCase().contains(targetTitle)) {
                 return;
             }
         }
         driver.switchTo().window(origin);
     }
 
+
     /**
      * click any link from loop practice
+     *
      * @param nameOfPage
-     * @author nsh
+     * @author AA
      */
-    public static void loopLinkClick(String nameOfPage){
-        WebElement element = Driver.getDriver().findElement(By.xpath("//a[.='"+nameOfPage+"']"));
+    public static void loopLinkClick(String nameOfPage) {
+        WebElement element = Driver.getDriver().findElement(By.xpath("//a[.='" + nameOfPage + "']"));
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
@@ -70,38 +88,35 @@ public class BrowserUtils {
     /**
      * waits for provided element to be clickable
      * @param element
+     *
      * @param timeout
      * @return
-     * @author nsh
+     * @author AA
      */
     public static WebElement waitForClickable(WebElement element, int timeout){
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout));
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout ));
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
-
     /**
      * waits for the provided element to be invisible on the page
      * @param element
      * @param timeToWaitInSec
-     * @author nsh
+     * @author AA
      */
 
-    public static void waitForInvisibility(WebElement element, int timeToWaitInSec){
+    public static  void waitForInvisibility(WebElement element, int timeToWaitInSec){
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeToWaitInSec));
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
-
     /**
      * waits for the provided element to be visible
-     * @param element
-     * @param timeToWaitSec
-     * @return
-     * @author nsh
+     * @oaram element
+     * @param timeToWaitInSec
+     * @author AA
      */
-    public static WebElement waitForVisibility(WebElement element, int timeToWaitSec){
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeToWaitSec));
+
+    public static WebElement waitForVisible(WebElement element, int timeToWaitInSec){
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeToWaitInSec));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
-
 }
-
