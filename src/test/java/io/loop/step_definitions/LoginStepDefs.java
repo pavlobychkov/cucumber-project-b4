@@ -9,6 +9,8 @@ import io.loop.utilities.ConfigurationReader;
 import io.loop.utilities.DocuportConstants;
 import io.loop.utilities.Driver;
 
+import java.util.Map;
+
 import static org.junit.Assert.assertTrue;
 
 public class LoginStepDefs {
@@ -84,5 +86,11 @@ public class LoginStepDefs {
     @Then("user should be able to see the home for supervisor")
     public void user_should_bbe_able_to_see_the_home_for_supervisor() {
 
+    }
+
+    @When ("user enters credentials")
+    public void user_enters_credentials(Map<String, String> credentials) {
+
+        loginPage.login2(credentials.get("username"), credentials.get("password"));
     }
 }
