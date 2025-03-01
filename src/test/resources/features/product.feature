@@ -33,7 +33,7 @@ Feature: product data table practice
       | Monitors | Apple monitor 24  | 400           |
       | Monitors | ASUS Full HD      | 230           |
 
-    @mapList
+    @mapList @smoke
     # practice Map<String, List<String>>
   Scenario: verify students names on discord
       Then user should be able to see the following names in their groups

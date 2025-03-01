@@ -2,7 +2,7 @@ Feature: Google Search Functionality Title Verification
 User Story: As user, when I am on a Google search page
 I should be able to search whatever I want and see the relevant information
 
-@google_search
+@google_search @smoke
 Scenario: Search functionality result title verification
 Given user in on Google search page
 When user types Loop Academy in the google search box and clicks enter
