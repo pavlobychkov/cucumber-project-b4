@@ -19,7 +19,7 @@ Feature: product data table practice
     # {Category=Phone, Product=Samsung galaxy s6, expectedPrice=360}
 
 
-  @listOfList
+  @listOfList @headless
   # practice List<List<String>>
   Scenario: verify each product price ListOfList
     Given User is on the HomePage
