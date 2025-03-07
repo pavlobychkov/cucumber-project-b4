@@ -1,1 +1,5 @@
-02.03.2025 15:13:29 INFO  Hook:22 - .....START AUTOMATION......LOOPCAMP
+06.03.2025 22:31:06 INFO  SampleDocuportStepDefs:40 - continue - was successfully clicked
+06.03.2025 22:31:07 INFO  SampleDocuportStepDefs:44 - Received Doc - was successfully clicked
+06.03.2025 22:31:07 INFO  SampleDocuportStepDefs:48 - Search - was successfully clicked
+06.03.2025 22:31:07 INFO  SampleDocuportStepDefs:29 - tax document - was successfully sent to -  Document name
+06.03.2025 22:31:07 INFO  Hook:31 - .....END AUTOMATION......LOOPCAMP
