@@ -7,10 +7,6 @@ public class TestExcel {
 
 
         ExcelUtils excelUtils = new ExcelUtils("C:/Users/Windows User/OneDrive/Desktop/Book1.xlsx", "Sheet1");
-        File file = new File("C:/Users/Windows User/OneDrive/Desktop/Book1.xlsx");
-        if (!file.exists()) {
-            System.out.println("File not found at: " + file.getAbsolutePath());
-        }
         System.out.println("Column Names: " + excelUtils.getColumnNames());
 
         System.out.println(excelUtils.getCellData(0,0));
