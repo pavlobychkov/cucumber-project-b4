@@ -74,8 +74,8 @@ public class ExcelUtils {
             }
 
         } catch (Exception e) {
-            LOG.error("Happened while writing to excel", e);
-            throw new RuntimeException("Error while writing to Excel file", e);
+            LOG.error("Error while writing to Excel file", e);
+            throw new RuntimeException("Error while writing to Excel file: " + e.getMessage(), e);
         }
     }
 
@@ -84,7 +84,10 @@ public class ExcelUtils {
     }
 
     public int rowCount(){
-        return workSheet.getLastRowNum();
+//        return workSheet.getLastRowNum();
+
+        return workSheet.getLastRowNum() + 1; // Ensure the total number of rows is counted
+
     }
 
     public String [][] getDataArray(){
@@ -122,7 +125,8 @@ public class ExcelUtils {
             Map<String, String> rowMap = new HashMap<>();
             for(Cell cell : row){
                 int columnIndex = cell.getColumnIndex();
-                rowMap.put(columns.get(columnIndex), cell.getCellStyle().toString());
+//                rowMap.put(columns.get(columnIndex), cell.getCellStyle().toString());
+                rowMap.put(columns.get(columnIndex), getCellData(i, columnIndex));
             }
         }
         return data;
@@ -132,17 +136,27 @@ public class ExcelUtils {
         List<List<String>> data = new ArrayList<>();
 
         for (int i = 0; i < rowCount(); i++) {
+            Row rowObj = workSheet.getRow(i);
+            if (rowObj == null) continue; // Skip empty rows
+
             List<String> row = new ArrayList<>();
             for (int j = 0; j < columnCount(); j++) {
                 row.add(getCellData(i, j));
             }
             data.add(row);
+
         }
         return data;
     }
 
-    public void setCellData(String value, String columnName, int row){
+    public void setCellData(String value, String columnName, int row) {
         int column = getColumnNames().indexOf(columnName);
+
+        if (column == -1) {
+            LOG.error("Column name '" + columnName + "' not found in Excel sheet.");
+            throw new IllegalArgumentException("Column name '" + columnName + "' not found in Excel sheet.");
+        }
+
         setCellData(value, row, column);
     }
 
@@ -193,5 +207,3 @@ public class ExcelUtils {
         return data;
     }
 }
-
-
